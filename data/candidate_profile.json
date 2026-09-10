@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "identity": {
+    "full_name": "[YOUR_NAME]",
+    "first_name": "[First]",
+    "last_name": "[Last]",
+    "email": "[your.email@example.com]",
+    "phone": "[+XX XXXXXXXXXX]",
+    "location": "[City, Country]",
+    "linkedin_url": "",
+    "github_url": ""
+  },
+  "employment": {
+    "current_employer": "",
+    "current_title": "",
+    "notice_period_status": "Immediate / Available",
+    "notice_period_days": 0,
+    "last_working_day": "",
+    "years_of_experience": 4
+  },
+  "compensation": {
+    "currency": "INR",
+    "unit": "LPA",
+    "current_ctc": 30.0,
+    "comfortable_min_base": 35.0,
+    "preferred_base_target": 40.0,
+    "min_acceptable_total": 40.0,
+    "preferred_total_target": 45.0
+  },
+  "preferences": {
+    "target_roles": [
+      "Senior Software Engineer",
+      "Software Engineer II",
+      "Backend Engineer"
+    ],
+    "target_locations": [
+      "Remote",
+      "Hybrid"
+    ],
+    "excluded_employers": [],
+    "narratives": [
+      "Backend / Distributed Systems",
+      "AI / Developer Productivity",
+      "Full Stack / Platform"
+    ]
+  }
+}

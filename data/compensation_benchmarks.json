@@ -1,0 +1,180 @@
+{
+  "version": "1.0.0",
+  "currency": "INR",
+  "unit": "LPA",
+  "last_updated": "2026-09-01",
+  "companies": {
+    "google": {
+      "name": "Google",
+      "tier": "Tier A",
+      "levels": {
+        "l4_swe2": { "level_name": "L4 (Software Engineer III / Mid)", "base_min": 42.0, "base_max": 52.0, "variable_min": 6.0, "variable_max": 8.0, "equity_min": 25.0, "equity_max": 40.0, "total_min": 73.0, "total_max": 100.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-01", "source_recency_days": 31 },
+        "l5_senior": { "level_name": "L5 (Senior Software Engineer)", "base_min": 55.0, "base_max": 75.0, "variable_min": 8.0, "variable_max": 12.0, "equity_min": 40.0, "equity_max": 70.0, "total_min": 103.0, "total_max": 157.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-01", "source_recency_days": 31 }
+      }
+    },
+    "apple": {
+      "name": "Apple",
+      "tier": "Tier A",
+      "levels": {
+        "ict3_swe2": { "level_name": "ICT3 (Software Engineer / SDE 2)", "base_min": 38.0, "base_max": 48.0, "variable_min": 4.0, "variable_max": 6.0, "equity_min": 15.0, "equity_max": 25.0, "total_min": 57.0, "total_max": 79.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-07-20", "source_recency_days": 43 },
+        "ict4_senior": { "level_name": "ICT4 (Senior Software Engineer)", "base_min": 50.0, "base_max": 68.0, "variable_min": 6.0, "variable_max": 9.0, "equity_min": 25.0, "equity_max": 45.0, "total_min": 81.0, "total_max": 122.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-07-20", "source_recency_days": 43 }
+      }
+    },
+    "microsoft": {
+      "name": "Microsoft",
+      "tier": "Tier A",
+      "levels": {
+        "l61_l62_swe2": { "level_name": "L61/L62 (Software Engineer II)", "base_min": 36.0, "base_max": 45.0, "variable_min": 5.0, "variable_max": 8.0, "equity_min": 12.0, "equity_max": 22.0, "total_min": 53.0, "total_max": 75.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-07-15", "source_recency_days": 48 },
+        "l63_senior": { "level_name": "L63 (Senior Software Engineer)", "base_min": 48.0, "base_max": 62.0, "variable_min": 7.0, "variable_max": 12.0, "equity_min": 22.0, "equity_max": 38.0, "total_min": 77.0, "total_max": 112.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-07-15", "source_recency_days": 48 }
+      }
+    },
+    "uber": {
+      "name": "Uber",
+      "tier": "Tier A",
+      "levels": {
+        "l4_swe2": { "level_name": "L4 (Software Engineer II)", "base_min": 40.0, "base_max": 50.0, "variable_min": 5.0, "variable_max": 8.0, "equity_min": 20.0, "equity_max": 35.0, "total_min": 65.0, "total_max": 93.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-10", "source_recency_days": 22 },
+        "l5_senior": { "level_name": "L5 (Senior Software Engineer)", "base_min": 55.0, "base_max": 70.0, "variable_min": 8.0, "variable_max": 12.0, "equity_min": 35.0, "equity_max": 60.0, "total_min": 98.0, "total_max": 142.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-10", "source_recency_days": 22 }
+      }
+    },
+    "atlassian": {
+      "name": "Atlassian",
+      "tier": "Tier A",
+      "levels": {
+        "p3_swe2": { "level_name": "P3 (Software Engineer II)", "base_min": 38.0, "base_max": 48.0, "variable_min": 4.0, "variable_max": 6.0, "equity_min": 16.0, "equity_max": 28.0, "total_min": 58.0, "total_max": 82.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-05", "source_recency_days": 27 },
+        "p4_senior": { "level_name": "P4 (Senior Software Engineer)", "base_min": 52.0, "base_max": 65.0, "variable_min": 6.0, "variable_max": 9.0, "equity_min": 28.0, "equity_max": 48.0, "total_min": 86.0, "total_max": 122.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-05", "source_recency_days": 27 }
+      }
+    },
+    "stripe": {
+      "name": "Stripe",
+      "tier": "Tier A",
+      "levels": {
+        "l2_swe2": { "level_name": "L2 (Software Engineer)", "base_min": 45.0, "base_max": 58.0, "variable_min": 5.0, "variable_max": 8.0, "equity_min": 25.0, "equity_max": 45.0, "total_min": 75.0, "total_max": 111.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-12", "source_recency_days": 20 }
+      }
+    },
+    "goldman sachs": {
+      "name": "Goldman Sachs",
+      "tier": "Tier A",
+      "levels": {
+        "associate_swe": { "level_name": "Associate (Software Engineer / 3-5 YOE)", "base_min": 34.0, "base_max": 44.0, "variable_min": 8.0, "variable_max": 16.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 42.0, "total_max": 60.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-01", "source_recency_days": 31 },
+        "vp_senior": { "level_name": "Vice President (Senior Engineer / Lead)", "base_min": 50.0, "base_max": 70.0, "variable_min": 15.0, "variable_max": 30.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 65.0, "total_max": 100.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-01", "source_recency_days": 31 }
+      }
+    },
+    "morgan stanley": {
+      "name": "Morgan Stanley",
+      "tier": "Tier A",
+      "levels": {
+        "manager_swe": { "level_name": "Manager / Senior Associate (3-5 YOE)", "base_min": 32.0, "base_max": 42.0, "variable_min": 6.0, "variable_max": 12.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 38.0, "total_max": 54.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-07-25", "source_recency_days": 38 }
+      }
+    },
+    "jpmorganchase": {
+      "name": "JPMorganChase",
+      "tier": "Tier A",
+      "levels": {
+        "se2": { "level_name": "Software Engineer II (602)", "base_min": 26.0, "base_max": 33.0, "variable_min": 3.0, "variable_max": 5.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 29.0, "total_max": 38.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-30", "source_recency_days": 2 },
+        "se3_senior": { "level_name": "Software Engineer III (603 / Senior)", "base_min": 38.0, "base_max": 48.0, "variable_min": 5.0, "variable_max": 10.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 43.0, "total_max": 58.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-30", "source_recency_days": 2 }
+      }
+    },
+    "blackrock": {
+      "name": "BlackRock",
+      "tier": "Tier A",
+      "levels": {
+        "associate_swe": { "level_name": "Associate (Software Engineer / 3-5 YOE)", "base_min": 32.0, "base_max": 42.0, "variable_min": 6.0, "variable_max": 12.0, "equity_min": 0.0, "equity_max": 5.0, "total_min": 38.0, "total_max": 59.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-07-28", "source_recency_days": 35 }
+      }
+    },
+    "paypal": {
+      "name": "PayPal",
+      "tier": "Tier A",
+      "levels": {
+        "se2": { "level_name": "Software Engineer 2 (T23)", "base_min": 32.0, "base_max": 40.0, "variable_min": 4.0, "variable_max": 6.0, "equity_min": 10.0, "equity_max": 18.0, "total_min": 46.0, "total_max": 64.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-02", "source_recency_days": 30 },
+        "senior_se": { "level_name": "Senior Software Engineer (T24)", "base_min": 42.0, "base_max": 55.0, "variable_min": 6.0, "variable_max": 9.0, "equity_min": 18.0, "equity_max": 30.0, "total_min": 66.0, "total_max": 94.0, "confidence": "high", "source": "compensation_db", "source_date": "2026-08-02", "source_recency_days": 30 }
+      }
+    },
+    "razorpay": {
+      "name": "Razorpay",
+      "tier": "Tier A",
+      "levels": {
+        "sde_2": { "level_name": "Software Development Engineer 2 (3-5 YOE)", "base_min": 34.0, "base_max": 42.0, "variable_min": 3.0, "variable_max": 5.0, "equity_min": 6.0, "equity_max": 12.0, "total_min": 43.0, "total_max": 59.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-15", "source_recency_days": 17 },
+        "sde_3_senior": { "level_name": "Software Development Engineer 3 (Senior)", "base_min": 46.0, "base_max": 60.0, "variable_min": 4.0, "variable_max": 8.0, "equity_min": 12.0, "equity_max": 24.0, "total_min": 62.0, "total_max": 92.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-15", "source_recency_days": 17 }
+      }
+    },
+    "cred": {
+      "name": "CRED",
+      "tier": "Tier A",
+      "levels": {
+        "backend_engineer": { "level_name": "Backend Engineer / SDE 2 (3-5 YOE)", "base_min": 40.0, "base_max": 52.0, "variable_min": 0.0, "variable_max": 0.0, "equity_min": 10.0, "equity_max": 20.0, "total_min": 50.0, "total_max": 72.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-10", "source_recency_days": 22 }
+      }
+    },
+    "swiggy": {
+      "name": "Swiggy",
+      "tier": "Tier A",
+      "levels": {
+        "sde_2": { "level_name": "Software Development Engineer 2 (3-5 YOE)", "base_min": 32.0, "base_max": 40.0, "variable_min": 3.0, "variable_max": 5.0, "equity_min": 8.0, "equity_max": 15.0, "total_min": 43.0, "total_max": 60.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-07-20", "source_recency_days": 43 }
+      }
+    },
+    "zomato": {
+      "name": "Zomato",
+      "tier": "Tier A",
+      "levels": {
+        "sde_2": { "level_name": "Software Development Engineer 2 (3-5 YOE)", "base_min": 34.0, "base_max": 42.0, "variable_min": 0.0, "variable_max": 0.0, "equity_min": 10.0, "equity_max": 20.0, "total_min": 44.0, "total_max": 62.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-07-10", "source_recency_days": 53 }
+      }
+    },
+    "cisco": {
+      "name": "Cisco",
+      "tier": "Tier B",
+      "levels": {
+        "grade_8_swe2": { "level_name": "Grade 8 (Software Engineer / 4-6 YOE)", "base_min": 32.0, "base_max": 40.0, "variable_min": 4.0, "variable_max": 6.0, "equity_min": 5.0, "equity_max": 10.0, "total_min": 41.0, "total_max": 56.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-15", "source_recency_days": 17 },
+        "grade_10_senior": { "level_name": "Grade 10 (Senior Software Engineer / 6-8 YOE)", "base_min": 42.0, "base_max": 52.0, "variable_min": 5.0, "variable_max": 8.0, "equity_min": 8.0, "equity_max": 16.0, "total_min": 55.0, "total_max": 76.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-15", "source_recency_days": 17 }
+      }
+    },
+    "wells fargo": {
+      "name": "Wells Fargo",
+      "tier": "Tier B",
+      "levels": {
+        "senior_swe": { "level_name": "Senior Software Engineer (Band 6 / 5-7 YOE)", "base_min": 34.0, "base_max": 44.0, "variable_min": 4.0, "variable_max": 8.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 38.0, "total_max": 52.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-01", "source_recency_days": 31 }
+      }
+    },
+    "barclays": {
+      "name": "Barclays",
+      "tier": "Tier B",
+      "levels": {
+        "ba4_swe": { "level_name": "BA4 (Software Engineer / 3-5 YOE)", "base_min": 28.0, "base_max": 36.0, "variable_min": 3.0, "variable_max": 6.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 31.0, "total_max": 42.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-05", "source_recency_days": 27 },
+        "avp_senior": { "level_name": "AVP (Senior Software Engineer / 5-8 YOE)", "base_min": 38.0, "base_max": 48.0, "variable_min": 5.0, "variable_max": 10.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 43.0, "total_max": 58.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-05", "source_recency_days": 27 }
+      }
+    },
+    "natwest group": {
+      "name": "NatWest Group",
+      "tier": "Tier B",
+      "levels": {
+        "avp_swe": { "level_name": "AVP (Software Engineer / 4-6 YOE)", "base_min": 36.0, "base_max": 46.0, "variable_min": 4.0, "variable_max": 8.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 40.0, "total_max": 54.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-07-28", "source_recency_days": 35 }
+      }
+    },
+    "maersk": {
+      "name": "Maersk",
+      "tier": "Tier B",
+      "levels": {
+        "swe2": { "level_name": "Software Engineer (4-6 YOE)", "base_min": 30.0, "base_max": 38.0, "variable_min": 3.0, "variable_max": 5.0, "equity_min": 0.0, "equity_max": 0.0, "total_min": 33.0, "total_max": 43.0, "confidence": "medium", "source": "company_benchmark", "source_date": "2026-07-20", "source_recency_days": 43 }
+      }
+    },
+    "nexthink": {
+      "name": "Nexthink",
+      "tier": "Tier B",
+      "levels": {
+        "senior_backend": { "level_name": "Senior Backend Software Engineer (4-6 YOE)", "base_min": 38.0, "base_max": 48.0, "variable_min": 4.0, "variable_max": 6.0, "equity_min": 6.0, "equity_max": 12.0, "total_min": 48.0, "total_max": 66.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-20", "source_recency_days": 12 }
+      }
+    },
+    "roku": {
+      "name": "Roku",
+      "tier": "Tier B",
+      "levels": {
+        "senior_swe": { "level_name": "Senior Software Engineer (4-7 YOE)", "base_min": 42.0, "base_max": 54.0, "variable_min": 4.0, "variable_max": 6.0, "equity_min": 15.0, "equity_max": 25.0, "total_min": 61.0, "total_max": 85.0, "confidence": "high", "source": "company_benchmark", "source_date": "2026-08-15", "source_recency_days": 17 }
+      }
+    },
+    "zimperium": {
+      "name": "Zimperium",
+      "tier": "Tier B",
+      "levels": {
+        "java_engineer": { "level_name": "Java Engineer (3-5 YOE)", "base_min": 32.0, "base_max": 42.0, "variable_min": 3.0, "variable_max": 5.0, "equity_min": 4.0, "equity_max": 8.0, "total_min": 39.0, "total_max": 55.0, "confidence": "medium", "source": "company_benchmark", "source_date": "2026-08-10", "source_recency_days": 22 }
+      }
+    }
+  }
+}
