@@ -18,6 +18,8 @@ import re
 import secrets
 import string
 import subprocess
+import sys
+import os
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -137,83 +139,208 @@ def make_service_name(portal_type: str, tenant_key: str) -> str:
 
 
 def store_credential(service_name: str, username: str, password: str) -> bool:
-    """Store a password in the macOS Keychain via /usr/bin/security.
+    """Store a password securely in the OS credential manager.
 
-    Uses -U to update if the entry already exists.
-    Redacts secrets from any exception or error output.
+    - macOS: native Keychain via /usr/bin/security
+    - Windows: Windows DPAPI / Credential Store
+    - Linux: secret-tool or keyring
     """
     if not service_name or not username or not password:
         raise ValueError("service_name, username, and password must not be empty")
 
-    cmd = [
-        "/usr/bin/security",
-        "add-generic-password",
-        "-a",
-        username,
-        "-s",
-        service_name,
-        "-w",
-        password,
-        "-U",
-    ]
-    try:
-        res = subprocess.run(cmd, capture_output=True, text=True, check=False)
-        return res.returncode == 0
-    except Exception as e:
-        # Redact any accidental credential leak in exception text
-        safe_msg = re.sub(re.escape(password), "[REDACTED]", str(e))
-        raise RuntimeError(f"Keychain storage failed: {safe_msg}") from None
+    if sys.platform == "darwin":
+        cmd = [
+            "/usr/bin/security",
+            "add-generic-password",
+            "-a",
+            username,
+            "-s",
+            service_name,
+            "-w",
+            password,
+            "-U",
+        ]
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            return res.returncode == 0
+        except Exception as e:
+            safe_msg = re.sub(re.escape(password), "[REDACTED]", str(e))
+            raise RuntimeError(f"Keychain storage failed: {safe_msg}") from None
+
+    elif sys.platform == "win32":
+        try:
+            import keyring
+            keyring.set_password(service_name, username, password)
+            return True
+        except Exception:
+            pass
+        try:
+            import ctypes
+            from ctypes import wintypes
+            class DATA_BLOB(ctypes.Structure):
+                _fields_ = [("cbData", wintypes.DWORD), ("pbData", ctypes.POINTER(ctypes.c_char))]
+            raw = password.encode("utf-8")
+            blob_in = DATA_BLOB(len(raw), ctypes.cast(ctypes.create_string_buffer(raw), ctypes.POINTER(ctypes.c_char)))
+            blob_out = DATA_BLOB()
+            if ctypes.windll.crypt32.CryptProtectData(ctypes.byref(blob_in), "ai-job-search", None, None, None, 0, ctypes.byref(blob_out)):
+                enc_data = ctypes.string_at(blob_out.pbData, blob_out.cbData)
+                ctypes.windll.kernel32.LocalFree(blob_out.pbData)
+                vault_dir = Path(os.path.expandvars(r"%LOCALAPPDATA%\ai-job-search"))
+                vault_dir.mkdir(parents=True, exist_ok=True)
+                key = f"{service_name}::{username}".replace(":", "_").replace("/", "_").replace("\\", "_")
+                (vault_dir / f"{key}.dpapi").write_bytes(enc_data)
+                return True
+        except Exception as e:
+            safe_msg = re.sub(re.escape(password), "[REDACTED]", str(e))
+            raise RuntimeError(f"Windows DPAPI storage failed: {safe_msg}") from None
+        return False
+
+    else:
+        # Linux / Unix fallback: try keyring or secret-tool
+        try:
+            import keyring
+            keyring.set_password(service_name, username, password)
+            return True
+        except Exception:
+            pass
+        cmd = ["secret-tool", "store", "--label", service_name, "service", service_name, "username", username]
+        try:
+            res = subprocess.run(cmd, input=password, capture_output=True, text=True, check=False)
+            return res.returncode == 0
+        except Exception:
+            return False
 
 
 def get_credential(service_name: str, username: str) -> str | None:
-    """Retrieve a password from the macOS Keychain via /usr/bin/security.
-
-    Returns the stripped password string if found, None otherwise.
-    """
+    """Retrieve a password from the native OS credential store."""
     if not service_name or not username:
         return None
 
-    cmd = [
-        "/usr/bin/security",
-        "find-generic-password",
-        "-a",
-        username,
-        "-s",
-        service_name,
-        "-w",
-    ]
-    try:
-        res = subprocess.run(cmd, capture_output=True, text=True, check=False)
-        if res.returncode == 0 and res.stdout:
-            return res.stdout.rstrip("\r\n")
+    if sys.platform == "darwin":
+        cmd = [
+            "/usr/bin/security",
+            "find-generic-password",
+            "-a",
+            username,
+            "-s",
+            service_name,
+            "-w",
+        ]
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            if res.returncode == 0 and res.stdout:
+                return res.stdout.rstrip("\r\n")
+            return None
+        except Exception:
+            return None
+
+    elif sys.platform == "win32":
+        try:
+            import keyring
+            pwd = keyring.get_password(service_name, username)
+            if pwd:
+                return pwd
+        except Exception:
+            pass
+        try:
+            import ctypes
+            from ctypes import wintypes
+            class DATA_BLOB(ctypes.Structure):
+                _fields_ = [("cbData", wintypes.DWORD), ("pbData", ctypes.POINTER(ctypes.c_char))]
+            vault_dir = Path(os.path.expandvars(r"%LOCALAPPDATA%\ai-job-search"))
+            key = f"{service_name}::{username}".replace(":", "_").replace("/", "_").replace("\\", "_")
+            dpapi_file = vault_dir / f"{key}.dpapi"
+            if not dpapi_file.exists():
+                return None
+            enc_data = dpapi_file.read_bytes()
+            blob_in = DATA_BLOB(len(enc_data), ctypes.cast(ctypes.create_string_buffer(enc_data), ctypes.POINTER(ctypes.c_char)))
+            blob_out = DATA_BLOB()
+            if ctypes.windll.crypt32.CryptUnprotectData(ctypes.byref(blob_in), None, None, None, None, 0, ctypes.byref(blob_out)):
+                raw = ctypes.string_at(blob_out.pbData, blob_out.cbData)
+                ctypes.windll.kernel32.LocalFree(blob_out.pbData)
+                return raw.decode("utf-8")
+        except Exception:
+            pass
         return None
-    except Exception:
-        return None
+
+    else:
+        try:
+            import keyring
+            pwd = keyring.get_password(service_name, username)
+            if pwd:
+                return pwd
+        except Exception:
+            pass
+        cmd = ["secret-tool", "lookup", "service", service_name, "username", username]
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            if res.returncode == 0 and res.stdout:
+                return res.stdout.rstrip("\r\n")
+            return None
+        except Exception:
+            return None
 
 
 def has_credential(service_name: str, username: str) -> bool:
-    """Check if a credential exists in macOS Keychain without returning it."""
+    """Check if a credential exists in the OS credential store without returning it."""
     return get_credential(service_name, username) is not None
 
 
 def delete_credential(service_name: str, username: str) -> bool:
-    """Delete a credential from the macOS Keychain."""
+    """Delete a credential from the OS credential store."""
     if not service_name or not username:
         return False
 
-    cmd = [
-        "/usr/bin/security",
-        "delete-generic-password",
-        "-a",
-        username,
-        "-s",
-        service_name,
-    ]
-    try:
-        res = subprocess.run(cmd, capture_output=True, text=True, check=False)
-        return res.returncode == 0
-    except Exception:
-        return False
+    if sys.platform == "darwin":
+        cmd = [
+            "/usr/bin/security",
+            "delete-generic-password",
+            "-a",
+            username,
+            "-s",
+            service_name,
+        ]
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            return res.returncode == 0
+        except Exception:
+            return False
+
+    elif sys.platform == "win32":
+        deleted = False
+        try:
+            import keyring
+            keyring.delete_password(service_name, username)
+            deleted = True
+        except Exception:
+            pass
+        try:
+            vault_dir = Path(os.path.expandvars(r"%LOCALAPPDATA%\ai-job-search"))
+            key = f"{service_name}::{username}".replace(":", "_").replace("/", "_").replace("\\", "_")
+            dpapi_file = vault_dir / f"{key}.dpapi"
+            if dpapi_file.exists():
+                dpapi_file.unlink()
+                deleted = True
+        except Exception:
+            pass
+        return deleted
+
+    else:
+        deleted = False
+        try:
+            import keyring
+            keyring.delete_password(service_name, username)
+            deleted = True
+        except Exception:
+            pass
+        cmd = ["secret-tool", "clear", "service", service_name, "username", username]
+        try:
+            res = subprocess.run(cmd, capture_output=True, text=True, check=False)
+            if res.returncode == 0:
+                deleted = True
+        except Exception:
+            pass
+        return deleted
 
 
 class AccountRegistry:

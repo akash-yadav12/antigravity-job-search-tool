@@ -17,18 +17,21 @@ WORKSPACE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import shutil
 
 def find_bun() -> str:
-    which = shutil.which("bun")
+    which = shutil.which("bun") or shutil.which("bun.exe")
     if which:
         return which
     candidates = [
         os.path.expanduser("~/.bun/bin/bun"),
+        os.path.expanduser("~/.bun/bin/bun.exe"),
+        os.path.expandvars(r"%USERPROFILE%\.bun\bin\bun.exe"),
+        os.path.expandvars(r"%LOCALAPPDATA%\bun\bin\bun.exe"),
         "/usr/local/bin/bun",
         "/opt/homebrew/bin/bun",
     ]
     for c in candidates:
         if os.path.exists(c):
             return c
-    return "bun"
+    return "bun.exe" if sys.platform == "win32" else "bun"
 
 BUN_BIN = find_bun()
 WATCHLIST_PATH = os.path.join(WORKSPACE_DIR, "data/company_watchlist.json")

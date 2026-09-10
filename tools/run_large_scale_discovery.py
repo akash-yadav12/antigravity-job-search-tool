@@ -27,7 +27,24 @@ SEEN_JOBS_PATH = WORKSPACE / "job_scraper/seen_jobs.json"
 WATCHLIST_PATH = WORKSPACE / "data/company_watchlist.json"
 BENCHMARKS_PATH = WORKSPACE / "data/compensation_benchmarks.json"
 import shutil
-BUN_BIN = shutil.which("bun") or os.path.expanduser("~/.bun/bin/bun") or "bun"
+def find_bun() -> str:
+    which = shutil.which("bun") or shutil.which("bun.exe")
+    if which:
+        return which
+    candidates = [
+        os.path.expanduser("~/.bun/bin/bun"),
+        os.path.expanduser("~/.bun/bin/bun.exe"),
+        os.path.expandvars(r"%USERPROFILE%\.bun\bin\bun.exe"),
+        os.path.expandvars(r"%LOCALAPPDATA%\bun\bin\bun.exe"),
+        "/usr/local/bin/bun",
+        "/opt/homebrew/bin/bun",
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return "bun.exe" if sys.platform == "win32" else "bun"
+
+BUN_BIN = find_bun()
 
 # Import domain tools
 from tools.normalization import (

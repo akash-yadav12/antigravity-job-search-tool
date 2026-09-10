@@ -1,3 +1,4 @@
+import sys
 from tools.profile_loader import get_identity_fact
 #!/usr/bin/env python3
 """
@@ -47,7 +48,7 @@ def verify_all():
         # Verify CV PDF
         cv_pdf = d / "cv.pdf"
         if cv_pdf.exists():
-            res_cv = subprocess.run(["python3", str(WORKSPACE / "tools/verify_pdf.py"), str(cv_pdf), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
+            res_cv = subprocess.run([sys.executable, str(WORKSPACE / "tools/verify_pdf.py"), str(cv_pdf), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
             if res_cv.returncode == 0:
                 print(f"  [OK] CV PDF verified (1 Page, Clean ATS text).")
             else:
@@ -57,7 +58,7 @@ def verify_all():
         # Verify Cover Letter PDF
         cl_pdf = d / "cover_letter.pdf"
         if cl_pdf.exists():
-            res_cl = subprocess.run(["python3", str(WORKSPACE / "tools/verify_pdf.py"), str(cl_pdf), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
+            res_cl = subprocess.run([sys.executable, str(WORKSPACE / "tools/verify_pdf.py"), str(cl_pdf), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
             if res_cl.returncode == 0:
                 print(f"  [OK] Cover Letter PDF verified (1 Page, Clean ATS text).")
             else:

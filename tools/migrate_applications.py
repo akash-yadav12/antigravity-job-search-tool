@@ -1,3 +1,4 @@
+import sys
 from tools.profile_loader import get_identity_fact
 #!/usr/bin/env python3
 """
@@ -177,8 +178,8 @@ def migrate():
         cl_compiled = (res_cl.returncode == 0 and (target_dir / "cover_letter.pdf").exists())
 
         # 6. PDF Verification
-        cv_verify = subprocess.run(["python3", str(WORKSPACE / "tools/verify_pdf.py"), str(target_dir / "cv.pdf"), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
-        cl_verify = subprocess.run(["python3", str(WORKSPACE / "tools/verify_pdf.py"), str(target_dir / "cover_letter.pdf"), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate"), "--contains", app["company"]], capture_output=True, text=True)
+        cv_verify = subprocess.run([sys.executable, str(WORKSPACE / "tools/verify_pdf.py"), str(target_dir / "cv.pdf"), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
+        cl_verify = subprocess.run([sys.executable, str(WORKSPACE / "tools/verify_pdf.py"), str(target_dir / "cover_letter.pdf"), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate"), "--contains", app["company"]], capture_output=True, text=True)
 
         results.append({
             "company": app["company"],

@@ -1,3 +1,4 @@
+import sys
 from tools.profile_loader import get_identity_fact
 #!/usr/bin/env python3
 """
@@ -151,12 +152,12 @@ def audit_package(app_dir):
     cl_pdf = app_dir / "cover_letter.pdf"
     
     if cv_pdf.exists():
-        res = subprocess.run(["python3", str(WORKSPACE / "tools/verify_pdf.py"), str(cv_pdf), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
+        res = subprocess.run([sys.executable, str(WORKSPACE / "tools/verify_pdf.py"), str(cv_pdf), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
         if res.returncode != 0:
             issues.append(f"CV PDF verification failed: {res.stderr.strip() or res.stdout.strip()}")
             
     if cl_pdf.exists():
-        res = subprocess.run(["python3", str(WORKSPACE / "tools/verify_pdf.py"), str(cl_pdf), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
+        res = subprocess.run([sys.executable, str(WORKSPACE / "tools/verify_pdf.py"), str(cl_pdf), "--pages", "1", "--contains", get_identity_fact("full_name", "Candidate")], capture_output=True, text=True)
         if res.returncode != 0:
             issues.append(f"Cover Letter PDF verification failed: {res.stderr.strip() or res.stdout.strip()}")
 

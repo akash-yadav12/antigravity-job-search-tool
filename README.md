@@ -5,6 +5,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![Bun](https://img.shields.io/badge/bun-1.0+-black.svg)](https://bun.sh/)
 [![LaTeX](https://img.shields.io/badge/latex-LuaLaTeX%20%7C%20XeLaTeX-green.svg)](https://www.latex-project.org/)
+[![OS](https://img.shields.io/badge/os-Windows%20%7C%20macOS%20%7C%20Linux-orange.svg)](README.md)
 [![Runtime](https://img.shields.io/badge/runtime-Google%20Antigravity%20%7C%20Claude%20Code-purple.svg)](https://github.com/akash-yadav12/antigravity-job-search-tool)
 [![Privacy](https://img.shields.io/badge/privacy-100%25%20Local%20%26%20Private-success.svg)](SECURITY.md)
 
@@ -27,6 +28,21 @@ The framework autonomously:
 
 ---
 
+## 🪟 Cross-Platform Compatibility (Windows, macOS & Linux)
+
+The framework is **100% cross-platform** and built from the ground up to support **Windows 10/11**, **macOS**, and **Linux** without requiring WSL or virtualization:
+
+| Feature / Tool | Windows (PowerShell / CMD) | macOS (zsh / bash) | Linux (bash) |
+| :--- | :--- | :--- | :--- |
+| **Python** | `python` or `py` (`sys.executable` auto-detected) | `python3` | `python3` |
+| **Bun CLI** | `bun.exe` (`irm bun.sh/install.ps1 \| iex` or `winget`) | `bun` (`brew` or `curl`) | `bun` (`curl -fsSL https://bun.sh/install`) |
+| **LaTeX Engine** | [MiKTeX](https://miktex.org/download) (`winget install MiKTeX.MiKTeX`) | [MacTeX](https://tug.org/mactex/) (`brew install --cask mactex-no-gui`) | TeX Live (`apt install texlive-luatex texlive-xetex`) |
+| **Credentials** | Windows DPAPI / Windows Credential Store | macOS Keychain (`/usr/bin/security`) | `secret-tool` / Python `keyring` |
+| **ATS Extractor** | Pure Python `pypdf` (zero binaries) or `choco install poppler` | `pypdf` or `brew install poppler` | `pypdf` or `apt install poppler-utils` |
+| **Path Handling** | Native `Path` / `os.path` (handles `\` & `/` seamlessly) | POSIX paths | POSIX paths |
+
+---
+
 ## ⚡ Key Capabilities
 
 ```mermaid
@@ -43,16 +59,15 @@ flowchart LR
 
 ### 1. Drop-In CV Ingestion & Bootstrapping
 - **Zero-Friction Onboarding**: Drop any resume (`.pdf`, `.tex`, `.txt`) into `cv/` or `documents/cv/`.
-- **Automated Text Extraction**: Built-in `tools/import_cv.py` uses `pypdf` and `pdftotext` to extract contact information, work history, achievements, and technical skills.
+- **Automated Text Extraction**: Built-in `tools/import_cv.py` uses pure Python `pypdf` (and fallback `pdftotext`) to extract contact information, work history, achievements, and technical skills.
 - **Configures Workspace Automatically**: Populates `data/candidate_profile.json`, `CLAUDE.md`, structured skill files (`01-candidate-profile.md`, `02-behavioral-profile.md`, `04-job-evaluation.md`, `05-cv-templates.md`, `07-interview-prep.md`), and compiles your master LuaLaTeX resume baseline (`cv/main_example.tex`).
 
 ### 2. Multi-Source Job Discovery Engine
 - **Cross-Platform Ingestion**: Aggregates job listings using Bun-based CLIs for LinkedIn and Freehire, European/Danish portals, and direct ATS platform scrapers (Workday, Greenhouse, Lever, SmartRecruiters, Ashby).
 - **Automated Ingestion**: Ingests postings directly into `job_scraper/seen_jobs.json` with provenance tracking.
 - **Run Standalone or via Agent**: Trigger with `/scrape` in Antigravity or execute directly:
-  ```bash
-  python3 tools/discovery_engine.py
-  ```
+  - macOS/Linux: `python3 tools/discovery_engine.py`
+  - Windows: `python tools/discovery_engine.py`
 
 ### 3. Data Normalization & Freshness Engine
 - **Canonical IDs**: Normalizes messy URLs, extracts requisition IDs, and generates deterministic UUIDs (`tools/normalization.py`) to prevent duplicate applications across aggregator boards.
@@ -116,9 +131,16 @@ cd ai-job-search
 
 ### Step 2: Drop Your Resume in `cv/`
 Copy your current resume into the `cv/` folder:
-```bash
-cp /path/to/your_resume.pdf cv/resume.pdf
-```
+
+- **macOS / Linux**:
+  ```bash
+  cp /path/to/your_resume.pdf cv/resume.pdf
+  ```
+- **Windows (PowerShell)**:
+  ```powershell
+  Copy-Item $HOME\Downloads\your_resume.pdf cv\resume.pdf
+  ```
+
 *(Optional: place supporting documents like reference letters or a LinkedIn PDF export in `documents/references/` or `documents/linkedin/`)*.
 
 ### Step 3: Run Onboarding
@@ -131,16 +153,27 @@ Simply message the agent:
 The agent reads `cv/resume.pdf`, extracts your professional history, populates `data/candidate_profile.json`, `CLAUDE.md`, and skills, and compiles your master LuaLaTeX CV.
 
 **Option B: Via CLI**
-```bash
-python3 tools/import_cv.py --auto
-```
+- **macOS / Linux**:
+  ```bash
+  python3 tools/import_cv.py --auto
+  ```
+- **Windows (PowerShell / CMD)**:
+  ```powershell
+  python tools/import_cv.py --auto
+  # or: py tools/import_cv.py --auto
+  ```
 
 ### Step 4: Discover & Rank Jobs
 Run the discovery pipeline to fetch new listings:
-```bash
-python3 tools/run_pipeline.py
-```
-Or use the native agent slash commands:
+- **macOS / Linux**:
+  ```bash
+  python3 tools/run_pipeline.py
+  ```
+- **Windows**:
+  ```powershell
+  python tools/run_pipeline.py
+  ```
+Or use the native agent slash commands in Antigravity or Claude:
 ```
 /scrape
 /rank
@@ -152,9 +185,14 @@ Apply to a single posting:
 /apply https://jobs.lever.co/example/12345
 ```
 Or generate a tailored batch for your top opportunities:
-```bash
-python3 tools/generate_batch.py --tier P0 --limit 5
-```
+- **macOS / Linux**:
+  ```bash
+  python3 tools/generate_batch.py --tier P0 --limit 5
+  ```
+- **Windows**:
+  ```powershell
+  python tools/generate_batch.py --tier P0 --limit 5
+  ```
 Each package is neatly arranged under `documents/applications/<Company>/<Role>/` with `cv.pdf`, `cover_letter.pdf`, `job_description.md`, and `tailoring_notes.md`.
 
 ### Step 6: Review & Submit
@@ -237,32 +275,51 @@ The agent navigates the application portal, populates form fields, uploads your 
 
 ---
 
-## 💻 Prerequisites
+## 💻 Environment Setup Guide
 
-| Tool | Version | Required For |
-| :--- | :--- | :--- |
-| **Python** | 3.10+ | Discovery pipeline, compensation engine, ATS verification |
-| **Bun** | 1.0+ | TypeScript job portal CLIs (LinkedIn, Freehire) |
-| **LaTeX** | LuaLaTeX & XeLaTeX | Compiling CVs (`lualatex`) and Cover Letters (`xelatex`) |
-| **AI Agent** | Google Antigravity or Claude Code | Autonomous orchestration, tailoring, and execution |
+### 1. Python (3.10+)
+- **Windows**: Install Python from [python.org](https://www.python.org/downloads/) (check *"Add python.exe to PATH"* during install) or run:
+  ```powershell
+  winget install Python.Python.3.12
+  ```
+- **macOS**: `brew install python`
+- **Linux**: `sudo apt install python3 python3-pip`
 
-### Quick Environment Installation
+Install the lightweight text extraction dependency:
+```bash
+pip install pypdf
+```
 
-- **Bun**:
+### 2. Bun (Job Search CLIs)
+- **Windows (PowerShell)**:
+  ```powershell
+  powershell -c "irm bun.sh/install.ps1 | iex"
+  # or using winget:
+  winget install Oven-sh.Bun
+  ```
+- **macOS / Linux**:
   ```bash
   curl -fsSL https://bun.sh/install | bash
   ```
-- **LaTeX (macOS via Homebrew / MacTeX)**:
+
+### 3. LaTeX (LuaLaTeX & XeLaTeX for CVs & Cover Letters)
+The CV compiles with `lualatex` (moderncv) and the cover letter compiles with `xelatex` (custom fontspec typography).
+
+- **Windows**: Install [Basic MiKTeX](https://miktex.org/download) or run:
+  ```powershell
+  winget install MiKTeX.MiKTeX
+  ```
+  *Tip for MiKTeX*: Turn on silent automatic package installation so LaTeX doesn't pause for prompts:
+  ```powershell
+  initexmf --set-config-value=[MPM]AutoInstall=1
+  ```
+- **macOS**: Install MacTeX via Homebrew:
   ```bash
   brew install --cask mactex-no-gui
   ```
-- **LaTeX (Ubuntu / Debian)**:
+- **Linux (Ubuntu / Debian)**:
   ```bash
-  sudo apt install texlive-luatex texlive-xetex texlive-latex-extra poppler-utils
-  ```
-- **Python Dependencies**:
-  ```bash
-  pip install pypdf
+  sudo apt install texlive-luatex texlive-xetex texlive-latex-extra texlive-fonts-extra poppler-utils
   ```
 
 ---
